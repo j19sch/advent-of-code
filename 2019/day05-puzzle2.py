@@ -18,20 +18,17 @@ def parse_instruction(intcode_program,read_pos):
     opcode = int(instruction[-2:])
     mode_param_1 = int(instruction[-3:-2] if instruction[-3:-2] != "" else 0)
     mode_param_2 = int(instruction[-4:-3] if instruction[-4:-3] != "" else 0)
-    mode_param_3 = int(instruction[-5:-3] if instruction[-5:-4] != "" else 0)
+    mode_param_3 = int(instruction[-5:-4] if instruction[-5:-4] != "" else 0)
     mode_params = [mode_param_1, mode_param_2, mode_param_3]
 
     return opcode, mode_params
 
 with open(filename, 'r') as input_file:
-    # intcode_program = [int(_) for _ in input_file.read().split(',')]
-
-    inp_string = "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"
-    intcode_program = [int(_) for _ in inp_string.split(',')]
+    intcode_program = [int(_) for _ in input_file.read().split(',')]
 
     read_pos = 0
 
-    input_instruction = 0
+    input_instruction = 5
     step = 0
 
     while True:
@@ -62,14 +59,14 @@ with open(filename, 'r') as input_file:
             print(f"output: {output}")
             read_pos += 2
         elif opcode == 5:  # jump-if-true
-            check, value_loc = get_input_parameters(2, intcode_program, read_pos, mode_params)
-            if check != 0:
+            check_loc, value_loc = get_input_parameters(2, intcode_program, read_pos, mode_params)
+            if intcode_program[check_loc] != 0:
                 read_pos = intcode_program[value_loc]
             else:
                 read_pos += 3
-        elif opcode == 6:  # jump-if-fale
-            check, value_loc = get_input_parameters(2, intcode_program, read_pos, mode_params)
-            if check == 0:
+        elif opcode == 6:  # jump-if-false
+            check_loc, value_loc = get_input_parameters(2, intcode_program, read_pos, mode_params)
+            if intcode_program[check_loc] == 0:
                 read_pos = intcode_program[value_loc]
             else:
                 read_pos += 3
