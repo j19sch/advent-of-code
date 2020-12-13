@@ -107,7 +107,8 @@ def add_child_bags(a_bag, a_bag_count, rules, count_the_bags):
 
 
 # rules_file = open_file('day07-example.txt')
-rules_file = open_file('day07-input.txt')
+rules_file = open_file('day07-example2.txt')
+# rules_file = open_file('day07-input.txt')
 
 rules = parse_input_file(rules_file)
 # pprint(rules)
@@ -121,7 +122,7 @@ my_inner_bags = 1
 
 for k,v in rules[my_bag].items():
 	print()
-	my_inner_bags += 1
+	my_inner_bags += v
 	inner_bags = add_child_bags(k, v, rules, 0)
 	my_inner_bags += inner_bags
 
