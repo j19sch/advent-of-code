@@ -30,9 +30,9 @@ def parse_input_file(the_file):
 
 	return ruleset
 
-rules_file = open_file('day07-example.txt')
-# rules_file = open_file('day07-example2.txt')
-# rules_file = open_file('day07-input.txt')
+# rules_file = open_file('day07-example.txt')  # 32
+# rules_file = open_file('day07-example2.txt')  # 126
+rules_file = open_file('day07-input.txt')
 
 rules = parse_input_file(rules_file)
 # pprint(rules)
@@ -49,33 +49,44 @@ rules = parse_input_file(rules_file)
  'vibrant plum bag': {'dotted black bag': 6, 'faded blue bag': 5}}
 """
 
-
-def count_the_bags(a_bag, a_bag_count, total_bags, rules):
+def counter_the_bags(a_bag, a_bag_count, total_bags, rules):
 	print(f"a_bag: {a_bag}, a_bag_count: {a_bag_count}")
 	print(f"in a_bag: {rules[a_bag]}")
 
-	num_of_bags = sum(rules[a_bag].values()) * a_bag_count
-	print(f"number of bags: {num_of_bags}")
+	if rules[a_bag] != {}:
+		for bag, number in rules[a_bag].items():
+			print(f"bag is {bag}")
+			print(f"total bags {total_bags} plus {number} * {a_bag_count}")
+			total_bags += (number * a_bag_count)
+			print(f"new total: {total_bags}")
+			print()
+			# the solution: total_bags = and number * a_bag_count
+			total_bags = counter_the_bags(bag, (number * a_bag_count), total_bags, rules)
+	else:
+		print("skip")
+		print()
 
-	total_bags += num_of_bags
-	print(f"total bags: {total_bags}")
-	print()
+	return total_bags
 
-	for bag, number in rules[a_bag].items():
-		a_bag_count = number
-		count_the_bags(bag, a_bag_count, total_bags, rules)
-	# 	print(f"bag: {bag}, number: {number}")
 
-	# 	a_bag_count *= number
-		
-	# 	# num_of_bags = sum(rules[bag].values()) * a_bag_count
-	# 	# print(f"number of bags: {num_of_bags}")
-		
-	# 	# total_bags += num_of_bags
-	# 	# print(f"total bags: {total_bags}")
-	# 	# print()
+# def count_the_bags(a_bag, a_bag_count, total_bags, rules):
+# 	if rules[a_bag] != {}:
+# 		print(f"a_bag: {a_bag}, a_bag_count: {a_bag_count}")
+# 		print(f"in a_bag: {rules[a_bag]}")
 
-	# 	count_the_bags(bag, number, total_bags, rules)
+# 		num_of_bags = sum(rules[a_bag].values()) * a_bag_count
+# 		print(f"number of bags: {num_of_bags}")
+
+# 		total_bags += num_of_bags
+# 		print(f"total bags: {total_bags}")
+# 		print()
+
+# 		for bag, number in rules[a_bag].items():
+# 			a_bag_count = number
+# 			count_the_bags(bag, a_bag_count, total_bags, rules)
+
+# 	return total_bags
+
 
 
 my_bag = "shiny gold bag"
@@ -94,5 +105,6 @@ my_bag = "shiny gold bag"
 # 	asd = sum(rules[bag].values()) * outer_bags_count
 # 	print(bag, asd)
 
-
-count_the_bags(my_bag, 1, 0, rules)
+all_the_bags = 0
+all_all_the_bags = counter_the_bags(my_bag, 1, all_the_bags, rules)
+print(f"all the bags: {all_all_the_bags}")
