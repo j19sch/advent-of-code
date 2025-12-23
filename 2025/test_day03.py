@@ -1,5 +1,6 @@
 import pytest
 from day03_01 import get_largest_joltage
+from day03_02 import get_more_largest_joltage
 
 
 @pytest.mark.parametrize(
@@ -35,3 +36,16 @@ from day03_01 import get_largest_joltage
 )
 def test_get_largest_number(input, expected):
     assert get_largest_joltage(input) == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("987654321111111", 987654321111),
+        ("811111111111119", 811111111119),
+        ("234234234234278", 434234234278),
+        ("818181911112111", 888911112111),
+    ],
+)
+def test_get_more_largest_number(input, expected):
+    assert get_more_largest_joltage(input) == expected
